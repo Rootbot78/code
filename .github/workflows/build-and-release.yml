@@ -1,6 +1,0 @@
-name: Build Windows EXE and Release
-
-on:
-  release:
-    types: [published]
-

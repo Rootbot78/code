@@ -19,7 +19,7 @@ jobs:
         run: pip install pyinstaller
 
       - name: 打包 EXE
-        run: pyinstaller --onefile main.py
+        run: pyinstaller --onefile count_dies.py
 
       - name: 上传 EXE 到 Release
         uses: softprops/action-gh-release@v2

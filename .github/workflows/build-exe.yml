@@ -1,0 +1,37 @@
+name: Build EXE
+
+on:
+  workflow_dispatch:
+    inputs:
+      entry_file:
+        description: 'Python 入口文件名'
+        required: true
+        default: 'count_dies.py'
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        if (Test-Path requirements.txt) { pip install -r requirements.txt }
+
+    - name: Install PyInstaller
+      run: pip install pyinstaller
+
+    - name: Build EXE
+      run: pyinstaller --onefile --name MyApp ${{ github.event.inputs.entry_file }}
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ github.event.inputs.entry_file }}-exe
+        path: dist/MyApp.exe
